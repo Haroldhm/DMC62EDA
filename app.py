@@ -46,7 +46,7 @@ class DataAnalyzer:
         self.numericas, self.categoricas = clasificar_variables(df)
 
     def estadisticas(self):
-        """Describe + mediana + moda de las variables numéricas."""
+        """Describe la mediana y moda de las variables numéricas."""
         resumen = self.df[self.numericas].describe().T
         resumen["mediana"] = self.df[self.numericas].median()
         resumen["moda"] = self.df[self.numericas].mode().iloc[0]
@@ -69,7 +69,7 @@ class DataAnalyzer:
         return fig
 
     def tasa_aceptacion(self, col):
-        """% de clientes que dijeron 'yes' en cada categoría de `col`."""
+        """% de clientes que dijeron 'yes' en cada categoría de col"""
         return (self.df["y"] == "yes").groupby(self.df[col]).mean() * 100
 
 
@@ -120,10 +120,10 @@ elif menu == "Carga del dataset":
 
         # Validamos que se haya leído bien (debe tener varias columnas y la columna 'y')
         if df is None or "y" not in df.columns or "age" not in df.columns:
-            st.error("❌ El archivo no es válido. Verifica que sea BankMarketing.csv.")
+            st.error("El archivo no es válido. Verifica que sea BankMarketing.csv.")
         else:
             st.session_state["df"] = df  # lo guardamos para usarlo en otros módulos
-            st.success("✅ Archivo cargado correctamente.")
+            st.success(" Archivo cargado correctamente.")
 
     if "df" in st.session_state:
         df = st.session_state["df"]
@@ -149,7 +149,7 @@ else:
     # MÓDULO 3: EDA
     # -----------------------------------------------------------
     if menu == "EDA":
-        st.title("🔎 Análisis Exploratorio de Datos (EDA)")
+        st.title("🔎 Bank Markeitng - EDA")
 
         # Filtros en el sidebar
         st.sidebar.markdown("---")
@@ -173,8 +173,8 @@ else:
         st.caption(f"Registros analizados: {len(datos):,} de {len(df):,}")
 
         tabs = st.tabs([
-            "1. Info", "2. Variables", "3. Descriptivas", "4. Faltantes", "5. Numéricas",
-            "6. Categóricas", "7. Num vs y", "8. Cat vs y", "9. Interactivo", "10. Hallazgos",
+            "1. Info", "2. Variables", "3. Est. Descriptivas", "4. Datos Faltantes", "5. Var. Numéricas",
+            "6. Var. Categóricas", "7. Analisis Bivariado (num vs cat)", "8. Analisis Bivariado (cat vs cat)", "9. Analisis interactivo", "10. Hallazgos",
         ])
 
         # ---------- Ítem 1: Información general ----------
@@ -270,6 +270,7 @@ else:
         # ---------- Ítem 6: Variables categóricas ----------
         with tabs[5]:
             st.subheader("Ítem 6: Análisis de variables categóricas")
+            
             col1, col2 = st.columns(2)
             var = col1.selectbox("Variable categórica", an.categoricas, key="i6_var")
             prop = col2.checkbox("Mostrar proporciones (%)", key="i6_prop")
@@ -277,6 +278,8 @@ else:
             conteo = datos[var].value_counts()
             tabla = pd.DataFrame({"Conteo": conteo, "Proporción (%)": (conteo / len(datos) * 100).round(2)})
             col1, col2 = st.columns(2)
+
+            
             with col1:
                 st.dataframe(tabla)
             with col2:
@@ -286,7 +289,9 @@ else:
         # ---------- Ítem 7: Numérico vs categórico ----------
         with tabs[6]:
             st.subheader("Ítem 7: Análisis bivariado (numérico vs categórico)")
+            
             st.write("Comparamos una variable numérica entre quienes aceptan (yes) y no aceptan (no).")
+            
             var = st.selectbox("Variable numérica", an.numericas, key="i7_var")
 
             col1, col2 = st.columns(2)
@@ -302,16 +307,21 @@ else:
         # ---------- Ítem 8: Categórico vs categórico ----------
         with tabs[7]:
             st.subheader("Ítem 8: Análisis bivariado (categórico vs categórico)")
+            
             st.write("¿En qué categorías es mayor el porcentaje de clientes que aceptan?")
+            
             opciones = [c for c in an.categoricas if c != "y"]
             var = st.selectbox("Variable categórica", opciones, key="i8_var")
 
             tabla = pd.crosstab(datos[var], datos["y"], normalize="index") * 100
             col1, col2 = st.columns(2)
+
+            
             with col1:
                 fig, ax = plt.subplots(figsize=(6, 4))
                 tabla.plot(kind="bar", stacked=True, ax=ax)
                 ax.set_ylabel("% dentro de la categoría")
+                
                 ax.set_title(f"{var} vs y")
                 st.pyplot(fig)
             with col2:
@@ -321,6 +331,7 @@ else:
 
         # ---------- Ítem 9: Análisis con parámetros ----------
         with tabs[8]:
+            
             st.subheader("Ítem 9: Análisis basado en parámetros seleccionados")
             st.write("Elige las columnas y el estadístico para armar tu propio análisis.")
 
@@ -367,10 +378,13 @@ else:
                 st.bar_chart(tasa_mes)
 
             mediana_dur = datos.groupby("y")["duration"].median()
+            
             st.markdown("**Insights principales**")
-            st.write(f"- El canal con mejor aceptación es **{tasa_contacto.idxmax()}** ({tasa_contacto.max():.1f}%).")
+            
+            st.write(f"- El canal con mejor aceptación es **{tasa_contacto.idxmax()}** ({tasa_contacto.max():.1f}%).")            
             st.write(f"- Los clientes con éxito previo aceptan {tasa_pout.get('success', 0):.1f}%, frente a {tasa_pout.get('nonexistent', 0):.1f}% de los que no tenían historial.")
             st.write(f"- El mes con mejor aceptación es **{tasa_mes.idxmax()}** ({tasa_mes.max():.1f}%).")
+            
             if "yes" in mediana_dur.index and "no" in mediana_dur.index:
                 st.write(f"- La mediana de duración de llamada es {mediana_dur['yes']:.0f}s en quienes aceptan y {mediana_dur['no']:.0f}s en quienes no.")
 
@@ -378,17 +392,25 @@ else:
     # MÓDULO 4: CONCLUSIONES (usa el dataset completo)
     # -----------------------------------------------------------
     else:
-        st.title("✅ Conclusiones finales")
+        st.title("Conclusiones finales")
         an = DataAnalyzer(df)
 
         global_ = (df["y"] == "yes").mean() * 100
+        
         t_contacto = an.tasa_aceptacion("contact")
+        
         t_pout = an.tasa_aceptacion("poutcome")
+        
         t_mes = an.tasa_aceptacion("month")
+        
         una_vez = (df[df["campaign"] == 1]["y"] == "yes").mean() * 100
+        
         muchas = (df[df["campaign"] > 10]["y"] == "yes").mean() * 100
+        
         mediana_dur = df.groupby("y")["duration"].median()
+        
         peso_mayo = (df["month"] == "may").mean() * 100
+        
         peso_success = (df["poutcome"] == "success").mean() * 100
 
         st.markdown(f"### 1. El canal importa\n"
