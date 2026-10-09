@@ -12,9 +12,9 @@ import streamlit as st
 st.set_page_config(page_title="Bank Marketing - EDA", page_icon="🏦", layout="wide")
 
 # ---------------------------------------------------------------
-# DATOS DEL AUTOR  (cámbialos por los tuyos)
+# DATOS DEL AUTOR  
 # ---------------------------------------------------------------
-NOMBRE = "Tu Nombre Completo"
+NOMBRE = "Harold Hernandez"
 CURSO = "Especialización en Python for Analytics - DMC Institute"
 ANIO = 2026
 
@@ -26,36 +26,6 @@ ORDEN_MESES = ["mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "d
 # ---------------------------------------------------------------
 st.sidebar.title("🏦 Bank Marketing")
 menu = st.sidebar.selectbox("Menú", ["Home", "Carga del dataset", "EDA", "Conclusiones"])
-
-
-# ===============================================================
-# MÓDULO 1: HOME
-# ===============================================================
-if menu == "Home":
-    st.title("Bank Marketing: Análisis Exploratorio de Datos")
-    st.write(
-        "Este proyecto analiza los datos de la última campaña de marketing de una "
-        "institución financiera, cuya efectividad cayó de 12% a 8% en los últimos 6 meses. "
-        "El objetivo es descubrir qué factores influyen en que un cliente acepte la campaña."
-    )
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Nombre:** Harold Hernandez Medina")
-        st.markdown("**Modulo:**  Python Fundamentals")
-        st.markdown("**Edad:**  25 años")
-        st.markdown("**Año:**  2026")
-        st.markdown("**Descripcion:**  Una aplicación interactiva en Streamlit integrando los contenidos revisados en el módulo")
-        st.markdown("**Tecnologias:**  GitHub,Streamlit,Python")
-        st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
-    with col2:
-        st.subheader("📊 Sobre el dataset")
-        st.write(
-            "El archivo BankMarketing.csv tiene una fila por cliente contactado, con su perfil "
-            "(edad, trabajo, educación), su situación financiera, datos de la gestión comercial "
-            "(canal, mes, duración, número de contactos), indicadores económicos y el resultado "
-            "final en la columna **y** (yes = aceptó, no = no aceptó)."
-        )
 
 
 # ---------------------------------------------------------------
@@ -103,9 +73,41 @@ class DataAnalyzer:
         return (self.df["y"] == "yes").groupby(self.df[col]).mean() * 100
 
 
+
 # ===============================================================
-# MÓDULO 2: CARGA DEL DATASET
+# MÓDULO 1: HOME
 # ===============================================================
+if menu == "Home":
+    st.title("Bank Marketing: Análisis Exploratorio de Datos")
+    st.write(
+        "Este proyecto analiza los datos de la última campaña de marketing de una "
+        "institución financiera, cuya efectividad cayó de 12% a 8% en los últimos 6 meses. "
+        "El objetivo es descubrir qué factores influyen en que un cliente acepte la campaña."
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Nombre:** Harold Hernandez Medina")
+        st.markdown("**Modulo:**  Python Fundamentals")
+        st.markdown("**Edad:**  25 años")
+        st.markdown("**Año:**  2026")
+        st.markdown("**Descripcion:**  Una aplicación interactiva en Streamlit integrando los contenidos revisados en el módulo")
+        st.markdown("**Tecnologias:**  GitHub,Streamlit,Python")
+        st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
+    with col2:
+        st.subheader("📊 Sobre el dataset")
+        st.write(
+            "El archivo BankMarketing.csv tiene una fila por cliente contactado, con su perfil "
+            "(edad, trabajo, educación), su situación financiera, datos de la gestión comercial "
+            "(canal, mes, duración, número de contactos), indicadores económicos y el resultado "
+            "final en la columna **y** (yes = aceptó, no = no aceptó)."
+        )
+
+
+
+########*************************************************************
+# MÓDULO 2: CARGA  DATASET
+########*************************************************************
 elif menu == "Carga del dataset":
     st.title("📂 Carga del dataset")
     archivo = st.file_uploader("Sube el archivo BankMarketing.csv", type=["csv"])
