@@ -86,13 +86,13 @@ if menu == "Home":
 
     col1, col2 = st.columns(2)
     with col1:
-          st.markdown("**Nombre:** Harold Hernandez Medina")
-          st.markdown("**Modulo:**  Python Fundamentals")
-          st.markdown("**Edad:**  25 años")
-          st.markdown("**Año:**  2026")
-          st.markdown("**Descripcion:**  Una aplicación interactiva en Streamlit integrando los contenidos revisados en el módulo")
-          st.markdown("**Tecnologias:**  GitHub,Streamlit,Python")
-         st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
+        st.markdown("**Nombre:** Harold Hernandez Medina")
+        st.markdown("**Modulo:**  Python Fundamentals")
+        st.markdown("**Edad:**  25 años")
+        st.markdown("**Año:**  2026")
+        st.markdown("**Descripcion:**  Una aplicación interactiva en Streamlit integrando los contenidos revisados en el módulo")
+        st.markdown("**Tecnologias:**  GitHub,Streamlit,Python")
+        st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
     with col2:
         st.subheader("📊 Sobre el dataset")
         st.write(
