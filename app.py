@@ -70,14 +70,14 @@ class DataAnalyzer:
 # MENÚ PRINCIPAL (sidebar)
 # ---------------------------------------------------------------
 st.sidebar.title("🏦 Bank Marketing")
-menu = st.sidebar.radio("Menú", ["Home", "Carga del dataset", "EDA", "Conclusiones"])
+menu = st.sidebar.selectbox("Menú", ["Home", "Carga del dataset", "EDA", "Conclusiones"])
 
 
 # ===============================================================
 # MÓDULO 1: HOME
 # ===============================================================
 if menu == "Home":
-    st.title("🏦 Bank Marketing: Análisis Exploratorio de Datos")
+    st.title("Bank Marketing: Análisis Exploratorio de Datos")
     st.write(
         "Este proyecto analiza los datos de la última campaña de marketing de una "
         "institución financiera, cuya efectividad cayó de 12% a 8% en los últimos 6 meses. "
@@ -86,12 +86,13 @@ if menu == "Home":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("👤 Autor")
-        st.write(f"**Nombre:** {NOMBRE}")
-        st.write(f"**Curso:** {CURSO}")
-        st.write(f"**Año:** {ANIO}")
-        st.subheader("🛠️ Tecnologías")
-        st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
+          st.markdown("**Nombre:** Harold Hernandez Medina")
+          st.markdown("**Modulo:**  Python Fundamentals")
+          st.markdown("**Edad:**  25 años")
+          st.markdown("**Año:**  2026")
+          st.markdown("**Descripcion:**  Una aplicación interactiva en Streamlit integrando los contenidos revisados en el módulo")
+          st.markdown("**Tecnologias:**  GitHub,Streamlit,Python")
+         st.write("Python, Pandas, NumPy, Matplotlib, Seaborn y Streamlit.")
     with col2:
         st.subheader("📊 Sobre el dataset")
         st.write(
