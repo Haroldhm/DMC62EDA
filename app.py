@@ -28,19 +28,20 @@ st.sidebar.title("🏦 Bank Marketing")
 menu = st.sidebar.selectbox("Menú", ["Home", "Carga del dataset", "EDA", "Conclusiones"])
 
 
-# ---------------------------------------------------------------
+##########################################################################
 # FUNCIÓN PERSONALIZADA: separa variables numéricas y categóricas
-# ---------------------------------------------------------------
+###########################################################################
 def clasificar_variables(df):
     numericas = df.select_dtypes(include="number").columns.tolist()
     categoricas = df.select_dtypes(exclude="number").columns.tolist()
     return numericas, categoricas
 
 
-# ---------------------------------------------------------------
+##############################################################
 # CLASE (POO): agrupa estadísticas, clasificación y gráficos
-# ---------------------------------------------------------------
+####################################################################
 class DataAnalyzer:
+    
     def __init__(self, df):
         self.df = df
         self.numericas, self.categoricas = clasificar_variables(df)
@@ -74,9 +75,10 @@ class DataAnalyzer:
 
 
 
-# ===============================================================
+#########################################################################3
 # MÓDULO 1: HOME
-# ===============================================================
+########################################################################
+
 if menu == "Home":
     st.title("Bank Marketing: Análisis Exploratorio de Datos")
     st.write(
@@ -136,18 +138,18 @@ elif menu == "Carga del dataset":
         st.warning("Aún no has cargado ningún archivo.")
 
 
-# ===============================================================
+####################################################
 # MÓDULOS 3 y 4: solo funcionan si el dataset ya fue cargado
-# ===============================================================
+# ###################################################################
 else:
     if "df" not in st.session_state:
         st.warning("⚠️ Primero carga el dataset en el módulo 'Carga del dataset'.")
         st.stop()
     df = st.session_state["df"]
 
-    # -----------------------------------------------------------
+    ###########################
     # MÓDULO 3: EDA
-    # -----------------------------------------------------------
+    ###########################
     if menu == "EDA":
         st.title("🔎 Bank Markeitng - EDA")
 
@@ -178,6 +180,7 @@ else:
         ])
 
         # ---------- Ítem 1: Información general ----------
+        
         with tabs[0]:
             st.subheader("Ítem 1: Información general del dataset")
             st.write("Estructura del dataset: `.info()`, tipos de datos y valores nulos.")
@@ -191,6 +194,7 @@ else:
                 st.dataframe(tabla)
 
         # ---------- Ítem 2: Clasificación de variables ----------
+        
         with tabs[1]:
             st.subheader("Ítem 2: Clasificación de variables")
             st.write("La función `clasificar_variables()` separa las columnas por tipo de dato.")
@@ -203,6 +207,7 @@ else:
                 st.write(an.categoricas)
 
         # ---------- Ítem 3: Estadísticas descriptivas ----------
+        
         with tabs[2]:
             st.subheader("Ítem 3: Estadísticas descriptivas")
             st.write("Resumen con `.describe()` más la mediana y la moda.")
@@ -221,7 +226,9 @@ else:
                 st.write("La media y la mediana son parecidas: la distribución es aproximadamente simétrica.")
 
         # ---------- Ítem 4: Valores faltantes ----------
+        
         with tabs[3]:
+            
             st.subheader("Ítem 4: Análisis de valores faltantes")
             st.write("Además de los nulos, en este dataset los faltantes aparecen escritos como 'unknown'.")
             nulos = datos.isnull().sum()
@@ -247,6 +254,8 @@ else:
             )
 
         # ---------- Ítem 5: Distribución de variables numéricas ----------
+
+        
         with tabs[4]:
             st.subheader("Ítem 5: Distribución de variables numéricas")
             col1, col2, col3 = st.columns(3)
@@ -342,7 +351,6 @@ else:
 
             if len(metricas) > 0:
                 resultado = datos.groupby(grupo)[metricas].agg(estadistico)
-                st.dataframe(resultado.round(2))
                 st.bar_chart(resultado)
             else:
                 st.info("Selecciona al menos una variable numérica.")
@@ -415,17 +423,17 @@ else:
         st.markdown("### 1. El canal importa\n"
                     "El celular logra " + str(celular) + "% de aceptación y el teléfono fijo solo "
                     + str(telefono) + "% (global: " + str(tasa_global) + "%). "
-                    "**Decisión:** priorizar el contacto por celular.")
+                    "**Conclusion:** priorizar el contacto por celular.")
 
         st.markdown("### 2. Los clientes con éxito previo son la mejor oportunidad\n"
                     "Aceptan " + str(exito_previo) + "% frente a " + str(sin_historial) + "% de quienes "
                     "no tenían historial, aunque son solo el " + str(peso_exito) + "% de la base. "
-                    "**Decisión:** priorizar su recontacto.")
+                    "**Conclusion:** priorizar su recontacto.")
 
         st.markdown("### 3. Insistir más no vende más\n"
                     "Con 1 solo contacto la aceptación es " + str(un_contacto) + "%; con más de 10 contactos baja a "
                     + str(mas_de_10) + "%. "
-                    "**Decisión:** poner un tope de intentos por cliente.")
+                    "**Conclusion:** poner un tope de intentos por cliente.")
 
         st.markdown("### 4. Las llamadas que terminan en venta son más largas\n"
                     "La mediana de duración es " + str(duracion_si) + "s en quienes aceptan y " + str(duracion_no) + "s en "
@@ -435,4 +443,4 @@ else:
         st.markdown("### 5. La carga de llamadas está mal distribuida en el año\n"
                     "Mayo concentra el " + str(peso_mayo) + "% de los contactos y convierte solo " + str(mayo) + "%, "
                     "mientras que marzo convierte " + str(marzo) + "%. "
-                    "**Decisión:** redistribuir las llamadas durante el año.")
+                    "**Conclusion:** redistribuir las llamadas durante el año.")
