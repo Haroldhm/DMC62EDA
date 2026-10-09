@@ -387,6 +387,7 @@ else:
     ##################################################################
     else:
         st.title("Conclusiones finales")
+        an = DataAnalyzer(df)
         tasa_global = round((df["y"] == "yes").mean() * 100, 1)
 
         t_contacto = an.tasa_aceptacion("contact")
