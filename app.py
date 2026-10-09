@@ -347,13 +347,7 @@ else:
             else:
                 st.info("Selecciona al menos una variable numérica.")
 
-            st.markdown("**Matriz de correlación**")
-            cols = st.multiselect("Variables a correlacionar", an.numericas,
-                                  default=[c for c in an.numericas if c != "pdays"], key="i9_corr")
-            if len(cols) >= 2:
-                fig, ax = plt.subplots(figsize=(8, 5))
-                sns.heatmap(datos[cols].corr(), annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
-                st.pyplot(fig)
+            
 
         # ---------- Ítem 10: Hallazgos clave ----------
         with tabs[9]:
