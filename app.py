@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-# Bank Marketing - Análisis Exploratorio de Datos (EDA)
-# Caso de Estudio N°1 | Especialización en Python for Analytics
-# Para ejecutar:  streamlit run app.py
-
 import io
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,7 +12,6 @@ st.set_page_config(page_title="Bank Marketing - EDA", page_icon="🏦", layout="
 NOMBRE = "Harold Hernandez"
 CURSO = "Especialización en Python for Analytics - DMC Institute"
 ANIO = 2026
-
 ORDEN_MESES = ["mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 
 
@@ -82,8 +76,7 @@ class DataAnalyzer:
 if menu == "Home":
     st.title("Bank Marketing: Análisis Exploratorio de Datos")
     st.write(
-        "Este proyecto analiza los datos de la última campaña de marketing de una "
-        "institución financiera, cuya efectividad cayó de 12% a 8% en los últimos 6 meses. "
+        "Este proyecto analiza los datos de la última campaña de marketing de una institución financiera"
         "El objetivo es descubrir qué factores influyen en que un cliente acepte la campaña."
     )
 
@@ -111,6 +104,7 @@ if menu == "Home":
 # MÓDULO 2: CARGA  DATASET
 ########*************************************************************
 elif menu == "Carga del dataset":
+    
     st.title("📂 Carga del dataset")
     archivo = st.file_uploader("Sube el archivo BankMarketing.csv", type=["csv"])
 
@@ -151,6 +145,7 @@ else:
     # MÓDULO 3: EDA
     ###########################
     if menu == "EDA":
+        
         st.title("🔎 Bank Markeitng - EDA")
 
         # Filtros en el sidebar
@@ -369,12 +364,17 @@ else:
 
             st.write(f"Efectividad global: **{tasa_global:.1f}%** de aceptación.")
             col1, col2, col3 = st.columns(3)
+            
             with col1:
+                
                 st.write("**% de aceptación por canal**")
                 st.bar_chart(tasa_contacto)
+                
             with col2:
+                
                 st.write("**% de aceptación por resultado previo**")
                 st.bar_chart(tasa_pout)
+                
             with col3:
                 st.write("**% de aceptación por mes**")
                 st.bar_chart(tasa_mes)
@@ -420,27 +420,27 @@ else:
         marzo = round(t_mes["mar"], 1)
 
         # Conclusiones
-        st.markdown("### 1. El canal importa\n"
-                    "El celular logra " + str(celular) + "% de aceptación y el teléfono fijo solo "
+        st.markdown("1. El canal importa\n"
+                    "El celular logra " + str(celular) + "% de aceptacion y el telefono fijo solo "
                     + str(telefono) + "% (global: " + str(tasa_global) + "%). "
                     "**Conclusion:** priorizar el contacto por celular.")
 
-        st.markdown("### 2. Los clientes con éxito previo son la mejor oportunidad\n"
+        st.markdown("2. Los clientes con exito previo son la mejor oportunidad\n"
                     "Aceptan " + str(exito_previo) + "% frente a " + str(sin_historial) + "% de quienes "
                     "no tenían historial, aunque son solo el " + str(peso_exito) + "% de la base. "
                     "**Conclusion:** priorizar su recontacto.")
 
-        st.markdown("### 3. Insistir más no vende más\n"
+        st.markdown("3. Insistir más no vende más\n"
                     "Con 1 solo contacto la aceptación es " + str(un_contacto) + "%; con más de 10 contactos baja a "
                     + str(mas_de_10) + "%. "
                     "**Conclusion:** poner un tope de intentos por cliente.")
 
-        st.markdown("### 4. Las llamadas que terminan en venta son más largas\n"
+        st.markdown("4. Las llamadas que terminan en venta son más largas\n"
                     "La mediana de duración es " + str(duracion_si) + "s en quienes aceptan y " + str(duracion_no) + "s en "
                     "quienes no. La duración solo se conoce al terminar la llamada, así que sirve para evaluar el guion "
                     "y capacitar a los ejecutivos, no para elegir a quién llamar.")
 
-        st.markdown("### 5. La carga de llamadas está mal distribuida en el año\n"
+        st.markdown("5. La carga de llamadas está mal distribuida en el año\n"
                     "Mayo concentra el " + str(peso_mayo) + "% de los contactos y convierte solo " + str(mayo) + "%, "
                     "mientras que marzo convierte " + str(marzo) + "%. "
                     "**Conclusion:** redistribuir las llamadas durante el año.")
