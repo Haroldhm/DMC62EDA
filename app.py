@@ -382,47 +382,56 @@ else:
             if "yes" in mediana_dur.index and "no" in mediana_dur.index:
                 st.write(f"- La mediana de duración de llamada es {mediana_dur['yes']:.0f}s en quienes aceptan y {mediana_dur['no']:.0f}s en quienes no.")
 
-    # -----------------------------------------------------------
-    # MÓDULO 4: CONCLUSIONES (usa el dataset completo)
-    # -----------------------------------------------------------
+    ################################################################
+    # MÓDULO 4: CONCLUSIONES
+    ##################################################################
     else:
         st.title("Conclusiones finales")
-        an = DataAnalyzer(df)
+        tasa_global = round((df["y"] == "yes").mean() * 100, 1)
 
-        global_ = (df["y"] == "yes").mean() * 100
-        
         t_contacto = an.tasa_aceptacion("contact")
-        
         t_pout = an.tasa_aceptacion("poutcome")
-        
         t_mes = an.tasa_aceptacion("month")
-        
-        una_vez = (df[df["campaign"] == 1]["y"] == "yes").mean() * 100
-        
-        muchas = (df[df["campaign"] > 10]["y"] == "yes").mean() * 100
-        
-        mediana_dur = df.groupby("y")["duration"].median()
-        
-        peso_mayo = (df["month"] == "may").mean() * 100
-        
-        peso_success = (df["poutcome"] == "success").mean() * 100
 
-        st.markdown(f"### 1. El canal importa\n"
-                    f"El celular logra {t_contacto.get('cellular', 0):.1f}% de aceptación y el teléfono fijo solo "
-                    f"{t_contacto.get('telephone', 0):.1f}% (global: {global_:.1f}%). "
-                    f"**Decisión:** priorizar el contacto por celular.")
-        st.markdown(f"### 2. Los clientes con éxito previo son la mejor oportunidad\n"
-                    f"Aceptan {t_pout.get('success', 0):.1f}% frente a {t_pout.get('nonexistent', 0):.1f}% de quienes "
-                    f"no tenían historial, aunque son solo el {peso_success:.1f}% de la base. "
-                    f"**Decisión:** priorizar su recontacto.")
-        st.markdown(f"### 3. Insistir más no vende más\n"
-                    f"Con 1 solo contacto la aceptación es {una_vez:.1f}%; con más de 10 contactos baja a {muchas:.1f}%. "
-                    f"**Decisión:** poner un tope de intentos por cliente.")
-        st.markdown(f"### 4. Las llamadas que terminan en venta son más largas\n"
-                    f"La mediana de duración es {mediana_dur['yes']:.0f}s en quienes aceptan y {mediana_dur['no']:.0f}s en "
-                    f"quienes no. La duración solo se conoce al terminar la llamada, así que sirve para evaluar el guion "
-                    f"y capacitar a los ejecutivos, no para elegir a quién llamar.")
-        st.markdown(f"### 5. La carga de llamadas está mal distribuida en el año\n"
-                    f"Mayo concentra el {peso_mayo:.0f}% de los contactos y convierte solo {t_mes.get('may', 0):.1f}%, "
-                    f"mientras que marzo convierte {t_mes.get('mar', 0):.1f}%. "
-                    f"**Decisión:** redistribuir las llamadas durante el año.")
+        celular = round(t_contacto["cellular"], 1)
+        telefono = round(t_contacto["telephone"], 1)
+
+        exito_previo = round(t_pout["success"], 1)
+        sin_historial = round(t_pout["nonexistent"], 1)
+        peso_exito = round((df["poutcome"] == "success").mean() * 100, 1)
+
+        un_contacto = round((df[df["campaign"] == 1]["y"] == "yes").mean() * 100, 1)
+        mas_de_10 = round((df[df["campaign"] > 10]["y"] == "yes").mean() * 100, 1)
+
+        duracion_si = int(round(df[df["y"] == "yes"]["duration"].median()))
+        duracion_no = int(round(df[df["y"] == "no"]["duration"].median()))
+
+        peso_mayo = int(round((df["month"] == "may").mean() * 100))
+        mayo = round(t_mes["may"], 1)
+        marzo = round(t_mes["mar"], 1)
+
+        # Conclusiones
+        st.markdown("### 1. El canal importa\n"
+                    "El celular logra " + str(celular) + "% de aceptación y el teléfono fijo solo "
+                    + str(telefono) + "% (global: " + str(tasa_global) + "%). "
+                    "**Decisión:** priorizar el contacto por celular.")
+
+        st.markdown("### 2. Los clientes con éxito previo son la mejor oportunidad\n"
+                    "Aceptan " + str(exito_previo) + "% frente a " + str(sin_historial) + "% de quienes "
+                    "no tenían historial, aunque son solo el " + str(peso_exito) + "% de la base. "
+                    "**Decisión:** priorizar su recontacto.")
+
+        st.markdown("### 3. Insistir más no vende más\n"
+                    "Con 1 solo contacto la aceptación es " + str(un_contacto) + "%; con más de 10 contactos baja a "
+                    + str(mas_de_10) + "%. "
+                    "**Decisión:** poner un tope de intentos por cliente.")
+
+        st.markdown("### 4. Las llamadas que terminan en venta son más largas\n"
+                    "La mediana de duración es " + str(duracion_si) + "s en quienes aceptan y " + str(duracion_no) + "s en "
+                    "quienes no. La duración solo se conoce al terminar la llamada, así que sirve para evaluar el guion "
+                    "y capacitar a los ejecutivos, no para elegir a quién llamar.")
+
+        st.markdown("### 5. La carga de llamadas está mal distribuida en el año\n"
+                    "Mayo concentra el " + str(peso_mayo) + "% de los contactos y convierte solo " + str(mayo) + "%, "
+                    "mientras que marzo convierte " + str(marzo) + "%. "
+                    "**Decisión:** redistribuir las llamadas durante el año.")
